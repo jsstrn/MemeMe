@@ -26,7 +26,11 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cIa-oY-hgc" userLabel="BottomToolbar">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem systemItem="camera" id="FUi-lU-Cmh"/>
+                                    <barButtonItem systemItem="camera" id="FUi-lU-Cmh">
+                                        <connections>
+                                            <action selector="pickImageFromCamera:" destination="vXZ-lx-hvc" id="vUO-4r-veG"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="Album" id="MdO-DZ-oLQ">
                                         <connections>
                                             <action selector="pickImageFromPhotoLibrary:" destination="vXZ-lx-hvc" id="1Ty-Av-71y"/>
@@ -37,11 +41,24 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UYg-T7-TMi">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                             </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RAw-RJ-NfC">
+                                <rect key="frame" x="252" y="88" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wds-jK-3z8">
+                                <rect key="frame" x="252" y="504" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="bottomTextField" destination="Wds-jK-3z8" id="h0V-HF-zwM"/>
+                        <outlet property="cameraButton" destination="FUi-lU-Cmh" id="kSo-uS-TKU"/>
                         <outlet property="imageView" destination="UYg-T7-TMi" id="y7d-jG-o94"/>
+                        <outlet property="topTextField" destination="RAw-RJ-NfC" id="JhS-2b-Ac9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

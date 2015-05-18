@@ -13,12 +13,35 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // MARK: Properties
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
+    @IBOutlet weak var topTextField: UITextField!
+    @IBOutlet weak var bottomTextField: UITextField!
     
     // MARK: Initial Methods
     
+    override func viewWillAppear(animated: Bool) {
+        cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageView.contentMode = .ScaleAspectFit
         
+        let memeTextAttributes = [
+            NSStrokeColorAttributeName : UIColor.blackColor(),
+            NSForegroundColorAttributeName : UIColor.whiteColor(),
+            NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSStrokeWidthAttributeName : -3.0
+        ]
+        
+        topTextField.delegate = self
+        topTextField.textAlignment = .Center
+        topTextField.text = "TOP"
+        topTextField.defaultTextAttributes = memeTextAttributes
+        
+        bottomTextField.delegate = self
+        bottomTextField.textAlignment = .Center
+        bottomTextField.text = "TOP"
+        bottomTextField.defaultTextAttributes = memeTextAttributes
     }
     
     // MARK: Image Picker
@@ -27,6 +50,9 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         imagePicker(.PhotoLibrary)
     }
     
+    @IBAction func pickImageFromCamera(sender: UIBarButtonItem) {
+        imagePicker(.Camera)
+    }
     func imagePicker(sourceType: UIImagePickerControllerSourceType) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = sourceType
