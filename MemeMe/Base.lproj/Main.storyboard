@@ -27,7 +27,11 @@
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="camera" id="FUi-lU-Cmh"/>
-                                    <barButtonItem title="Album" id="MdO-DZ-oLQ"/>
+                                    <barButtonItem title="Album" id="MdO-DZ-oLQ">
+                                        <connections>
+                                            <action selector="pickImageFromPhotoLibrary:" destination="vXZ-lx-hvc" id="1Ty-Av-71y"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UYg-T7-TMi">
@@ -36,6 +40,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="UYg-T7-TMi" id="y7d-jG-o94"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
