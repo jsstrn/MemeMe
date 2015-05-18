@@ -44,6 +44,29 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         bottomTextField.defaultTextAttributes = memeTextAttributes
     }
     
+    // MARK: Text Fields and Ktexteyboards
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        if textField.text == "TOP" {
+            topTextField.text = ""
+        }
+        if textField.text == "BOTTOM" {
+            bottomTextField.text = ""
+        }
+        
+        return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        textFieldShouldReturn(topTextField)
+        textFieldShouldReturn(bottomTextField)
+    }
+    
     // MARK: Image Picker
     
     @IBAction func pickImageFromPhotoLibrary(sender: UIBarButtonItem) {
