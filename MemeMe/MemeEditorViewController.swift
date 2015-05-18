@@ -36,12 +36,12 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         topTextField.delegate = self
         topTextField.textAlignment = .Center
-        topTextField.text = "TOP"
+        topTextField.text = "INSERT TEXT HERE"
         topTextField.defaultTextAttributes = memeTextAttributes
         
         bottomTextField.delegate = self
         bottomTextField.textAlignment = .Center
-        bottomTextField.text = "BOTTOM"
+        bottomTextField.text = "INSERT TEXT HERE"
         bottomTextField.defaultTextAttributes = memeTextAttributes
     }
     
@@ -52,18 +52,17 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // MARK: Text Fields and Keyboard
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        if textField.text == "TOP" {
-            topTextField.text = ""
+        if textField.text == "INSERT TEXT HERE" {
+            textField.text = ""
         }
-        if textField.text == "BOTTOM" {
-            bottomTextField.text = ""
-        }
-        
         return true
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        if textField.text == "" {
+            textField.text = "INSERT TEXT HERE"
+        }
         return true
     }
     
@@ -104,8 +103,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        let keyboardSize = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         let keyboardHeight = keyboardSize.CGRectValue().height
         return keyboardHeight
     }
@@ -119,15 +117,21 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     @IBAction func pickImageFromCamera(sender: UIBarButtonItem) {
         imagePicker(.Camera)
     }
+    
     func imagePicker(sourceType: UIImagePickerControllerSourceType) {
         let imagePickerController = UIImagePickerController()
+        // define its source type
         imagePickerController.sourceType = sourceType
+        // set self as delegate
         imagePickerController.delegate = self
+        // present controller
         self.presentViewController(imagePickerController, animated: true, completion: nil)
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        // display selected image
         imageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        // dismiss controller
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
