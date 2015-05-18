@@ -20,7 +20,8 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // MARK: Initial Methods
     
     override func viewWillAppear(animated: Bool) {
-        cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
+        self.subscribeToKeyboardNotifications()
+        self.cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +41,15 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         bottomTextField.delegate = self
         bottomTextField.textAlignment = .Center
-        bottomTextField.text = "TOP"
+        bottomTextField.text = "BOTTOM"
         bottomTextField.defaultTextAttributes = memeTextAttributes
     }
     
-    // MARK: Text Fields and Ktexteyboards
+    override func viewWillDisappear(animated: Bool) {
+        self.unsubscribeFromKeyboardNotifications()
+    }
+    
+    // MARK: Text Fields and Keyboard
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         if textField.text == "TOP" {
@@ -65,6 +70,44 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         textFieldShouldReturn(topTextField)
         textFieldShouldReturn(bottomTextField)
+    }
+    
+    // MARK: Keyboard Notifications
+    
+    func subscribeToKeyboardNotifications() {
+        let keyboardNotification = NSNotificationCenter.defaultCenter()
+        // subscribe to keyboard will show notification
+        keyboardNotification.addObserver(self, selector: "moveViewUpWhenKeyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter()
+        // subscribe to keyboard will hide notification
+        keyboardNotification.addObserver(self, selector: "moveViewDownWhenKeyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func unsubscribeFromKeyboardNotifications() {
+        let keyboardNotification = NSNotificationCenter.defaultCenter()
+        // unsubscribe from keyboard will show notification
+        keyboardNotification.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        // unsubscribe from keyboard will hide notification
+        keyboardNotification.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func moveViewUpWhenKeyboardWillShow(notification: NSNotification) {
+        if bottomTextField.isFirstResponder() {
+            self.view.frame.origin.y -= getKeyboardHeight(notification)
+        }
+    }
+    
+    func moveViewDownWhenKeyboardWillHide(notification: NSNotification) {
+        if bottomTextField.isFirstResponder() {
+            self.view.frame.origin.y += getKeyboardHeight(notification)
+        }
+    }
+    
+    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        let keyboardHeight = keyboardSize.CGRectValue().height
+        return keyboardHeight
     }
     
     // MARK: Image Picker
